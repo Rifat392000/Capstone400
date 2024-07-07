@@ -4,38 +4,40 @@ const currentUser = JSON.parse(currentUserJSON);
 
 if (currentUser) {
     document.querySelectorAll('.empName').forEach(element => {
-        element.innerText = currentUser.empName;
+        element.innerText = currentUser.userName;
     });
 
     document.querySelectorAll('.empId').forEach(element => {
-        element.innerText = currentUser.empId;
+        element.innerText = currentUser.userId;
     });
 
-    document.getElementById('desg').innerText = currentUser.employeeDesignation;
-
+    if(currentUser.userLevel== 1)
+    document.getElementById('desg').innerText = "Trainee";
+    else
+    document.getElementById('desg').innerText = "Observer";
     
     
 
     const imgElement = document.querySelectorAll('.empImg');
 
-    if (currentUser.empId === 1001) {
+    if (currentUser.userId === 1001) {
         imgElement.forEach(img => {
             img.src = 'rifat.png';
         });
        
-    } else if (currentUser.empId === 1002) {
+    } else if (currentUser.userId === 1002) {
         imgElement.forEach(img => {
             img.src = 'ifty.png';
         });
-    } else if (currentUser.empId === 1003) {
+    } else if (currentUser.userId === 1003) {
         imgElement.forEach(img => {
             img.src = 'saif.png';
         });
-    } else if (currentUser.empId === 1004) {
+    } else if (currentUser.userId === 1004) {
         imgElement.forEach(img => {
             img.src = 'zaman.png';
         });
-    } else if (currentUser.empId === 1005) {
+    } else if (currentUser.userId === 1005) {
         imgElement.forEach(img => {
             img.src = 'uddin.png';
         });

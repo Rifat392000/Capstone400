@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: '123456',
-    database: 'leavemanagement',
+    database: 'fire',
 });
 
 connection.connect(error => {
@@ -31,21 +31,17 @@ app.post('/login', (req, res) => {
 
     const sql = `
         SELECT 
-            E.empId, 
-            E.empName, 
-            E.designationId,
-            D.designationName AS employeeDesignation,
-            E.supervisorId,
-            S.empName AS supervisorName
+
+        userId,
+        userLevel,
+        userName
+            
         FROM 
-            Employee AS E
-        INNER JOIN 
-            Designation AS D ON E.designationId = D.designationId
-        LEFT JOIN 
-            Employee AS S ON E.supervisorId = S.designationId
+            UserInfo
+        
         WHERE 
-            E.empId = ?
-            AND E.empPassword = ?;
+            userId = ?
+            AND userPassword = ?;
     `;
 
     connection.query(sql, [user, pass], (err, result) => {
@@ -69,17 +65,15 @@ app.post('/login', (req, res) => {
 app.get('/employees', (req, res) => {
    
     const sqlQuery = `
-    SELECT 
-    E.empId, 
-    E.empName, 
-    D.designationName AS employeeDesignation,
-    S.empName AS supervisorName
-FROM 
-    Employee AS E
-INNER JOIN 
-    Designation AS D ON E.designationId = D.designationId
-LEFT JOIN 
-    Employee AS S ON E.supervisorId = S.empId;
+   SELECT 
+userId,
+Tid,
+Accuracy,
+result
+ 
+ FROM
+ Trainee;
+
     `;
 
     // Execute the SQL query

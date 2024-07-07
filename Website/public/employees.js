@@ -4,34 +4,34 @@ const currentUser = JSON.parse(currentUserJSON);
 
 if (currentUser) {
     document.querySelectorAll('.empName').forEach(element => {
-        element.innerText = currentUser.empName;
+        element.innerText = currentUser.userName;
     });
 
     document.querySelectorAll('.empId').forEach(element => {
-        element.innerText = currentUser.empId;
+        element.innerText = currentUser.userId;
     });
 
     
     const imgElement = document.querySelectorAll('.empImg');
 
-    if (currentUser.empId === 1001) {
+    if (currentUser.userId === 1001) {
         imgElement.forEach(img => {
             img.src = 'rifat.png';
         });
        
-    } else if (currentUser.empId === 1002) {
+    } else if (currentUser.userId === 1002) {
         imgElement.forEach(img => {
             img.src = 'ifty.png';
         });
-    } else if (currentUser.empId === 1003) {
+    } else if (currentUser.userId === 1003) {
         imgElement.forEach(img => {
             img.src = 'saif.png';
         });
-    } else if (currentUser.empId === 1004) {
+    } else if (currentUser.userId === 1004) {
         imgElement.forEach(img => {
             img.src = 'zaman.png';
         });
-    } else if (currentUser.empId === 1005) {
+    } else if (currentUser.userId === 1005) {
         imgElement.forEach(img => {
             img.src = 'uddin.png';
         });
@@ -73,29 +73,36 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error fetching data:', error));
 
-    function updateEmployeeTable(data) {
-        // Assuming you have an HTML table with the id 'employeeTable'
-        const table = document.getElementById('employeeTable');
-
-        // Clear existing table content, except for the header
-        table.querySelector('tbody').innerHTML = '';
-
-        // Create table rows with data
-        data.forEach((employee, index) => {
-            const row = table.querySelector('tbody').insertRow(index);
-            const columns = ['empId', 'empName', 'employeeDesignation', 'supervisorName'];
-
-            columns.forEach((column, columnIndex) => {
-                const cell = row.insertCell(columnIndex);
-                if (column === 'supervisorName' && employee[column] === null) {
-                    cell.textContent = 'Not Applicable';
-                    cell.style.color = 'red';  // Set text color to red
-                } else {
-                    cell.textContent = employee[column];
-                }
+        function updateEmployeeTable(data) {
+            const table = document.getElementById('employeeTable');
+            table.querySelector('tbody').innerHTML = '';
+            
+            // Filter data to only include rows where Tid matches currentUser.userId
+            const filteredData = data.filter(employee => employee.userId === currentUser.userId);
+            
+            filteredData.forEach((employee, index) => {
+                const row = table.querySelector('tbody').insertRow(index);
+                const columns = ['Tid', 'Accuracy', 'result'];
+            
+                // Add Serial number
+                const serialCell = row.insertCell(0);
+                serialCell.textContent = index + 1;
+            
+                // Add data from columns
+                columns.forEach((column, columnIndex) => {
+                    const cell = row.insertCell(columnIndex + 1);
+                    if (column === 'result') {
+                        cell.textContent = employee[column] === 1 ? 'Success' : 'Failure';
+                    } else {
+                        cell.textContent = employee[column];
+                    }
+                });
+            
+                // Add blank Improvement Actions cell
+                const improvementCell = row.insertCell(4);
+                improvementCell.textContent = '';
             });
-        });
-    }
+        }
 });
 
   
